@@ -1,26 +1,56 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+@font-face {
+    font-family: "poppins-b";
+    src: url("./fonts/Poppins/Poppins-Bold.ttf");
+}
+@font-face {
+    font-family: "poppins-m";
+    src: url("./fonts/Poppins/Poppins-Medium.ttf");
+}
+@font-face {
+    font-family: "poppins-r";
+    src: url("./fonts/Poppins/Poppins-Regular.ttf");
+}
+@font-face {
+    font-family: "poppins-l";
+    src: url("./fonts/Poppins/Poppins-Light.ttf");
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+@font-face {
+    font-family: "nm-b";
+    src: url("./fonts/Neue-Montreal/NeueMontreal-Bold.otf");
+}
+@font-face {
+    font-family: "nm-m";
+    src: url("./fonts/Neue-Montreal/NeueMontreal-Medium.otf");
+}
+@font-face {
+    font-family: "nm-r";
+    src: url("./fonts/Neue-Montreal/NeueMontreal-Regular.otf");
+}
+@font-face {
+    font-family: "nm-l";
+    src: url("./fonts/Neue-Montreal/NeueMontreal-Light.otf");
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+p,
+li,
+input,
+div,
+article,
+section,
+aside {
+    font-family: "nm-r", sans-serif;
+    letter-spacing: 1px;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "poppins-m", sans-serif;
 }
