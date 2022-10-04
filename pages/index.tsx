@@ -4,22 +4,34 @@ import { imgIcons, imgBackgrounds, imgLogos } from "../public/images/images";
 import { useContext, useState } from "react";
 import { GlobalContext } from "../components/Global";
 import { useRouter } from "next/router";
+import api from "../util/api";
+import { setCookie } from "cookies-next";
 
 const Home = () => {
-    const { setWhosLogin, whosLogin } = useContext(GlobalContext);
     const router = useRouter();
     const [isUsername, setUsername] = useState<string>();
     const [isPassword, setPassword] = useState<string>();
 
-    const validateLogin = () => {
-        if (isUsername === "user" && isPassword === "user") {
-            setWhosLogin("user");
-            router.push("/dashboard");
-        } else if (isUsername === "admin" && isPassword === "admin") {
-            setWhosLogin("admin");
-            router.push("/dashboard");
-        } else {
-            alert("Invalid Login");
+    const validateLogin = async (e: any) => {
+        e.preventDefault();
+        console.log(isUsername);
+        console.log(isPassword);
+        try {
+            // send (post) checking here if the user and pass is existing in API
+            const response = await api.post("/auth/login", {
+                email: isUsername,
+                password: isPassword,
+            });
+            // CREATING A TOKEN if response is true
+            const { token } = await response.data;
+            if (token) {
+                setCookie("user", token);
+                router.push("/dashboard");
+            } else {
+                router.push("/");
+            }
+        } catch (error) {
+            alert("invalid user and pass");
         }
     };
 
@@ -54,40 +66,25 @@ const Home = () => {
                     <p className="text-gray1 text-12px mb-8 font-nm-r tracking-wide">
                         sign in to your account here
                     </p>
-                    <form className="w-full">
-                        <div className="w-full flex justify-center items-center border border-gray p-2 pl-4 mb-5 rounded-md">
-                            <Image
-                                src={imgIcons.loginProfile}
-                                alt="profile"
-                                height={20}
-                                width={16}
-                            />
-                            <input
-                                type="text"
-                                className="p-2 w-full ml-4 text-16px outline-none"
-                                placeholder="Username"
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
-                        </div>
-                        <div className="w-full flex justify-center items-center border border-gray p-2 pl-4 rounded-md mb-14">
-                            <Image
-                                src={imgIcons.lock}
-                                alt="profile"
-                                height={20}
-                                width={18}
-                            />
-                            <input
-                                type="password"
-                                className="p-2 w-full ml-4 text-16px outline-none"
-                                placeholder="Password"
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
+                    <form onSubmit={validateLogin} className="w-full">
                         <input
-                            type="button"
-                            value="Sign In"
-                            className=" duration-75 tra cursor-pointer w-full flex justify-center items-center bg-red1 text-white p-2 pl-4 rounded-md"
-                            onClick={validateLogin}
+                            type="text"
+                            placeholder="username"
+                            name="username"
+                            onChange={(e) => setUsername(e.target.value)}
+                            className=" w-full py-2 px-3 border border-gray-300 rounded-lg mb-2"
+                        />
+                        <input
+                            type="password"
+                            placeholder="password"
+                            name="password"
+                            onChange={(e) => setPassword(e.target.value)}
+                            className=" w-full py-2 px-3 border border-gray-300 rounded-lg mb-2"
+                        />
+                        <input
+                            type="submit"
+                            value="submit"
+                            className=" py-2 px-3 bg-themeRed rounded-lg font-poppins-b text-white cursor-pointer"
                         />
                     </form>
                 </div>

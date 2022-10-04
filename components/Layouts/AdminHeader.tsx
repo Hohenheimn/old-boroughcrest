@@ -5,10 +5,13 @@ import { ImSearch } from "react-icons/im";
 import { MdOutlineNotifications } from "react-icons/md";
 import { BiLogOut } from "react-icons/bi";
 import Link from "next/link";
+import { getCookie, deleteCookie } from "cookies-next";
+import api from "../../util/api";
+import { useRouter } from "next/router";
 
 export default function Header() {
     const [isProfileMenuToggle, setProfileMenuToggle] = useState(false);
-
+    const router = useRouter();
     return (
         <nav className="flex justify-between items-center h-20 px-10 l:px-4">
             <aside className="flex items-center">
@@ -45,13 +48,7 @@ export default function Header() {
                                     <a>View Profile</a>
                                 </Link>
                             </li>
-                            <li className="px-6 py-2 w-full hover:bg-red1">
-                                <Link href="/">
-                                    <a className="flex items-center">
-                                        <BiLogOut className=" mr-2" /> Sign Out
-                                    </a>
-                                </Link>
-                            </li>
+                            <li className="px-6 py-2 w-full hover:bg-red1"></li>
                         </ul>
                     )}
                 </li>

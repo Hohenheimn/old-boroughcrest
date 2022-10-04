@@ -3,6 +3,8 @@ import { imgIcons } from "../../public/images/images";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { getCookie, deleteCookie } from "cookies-next";
+import api from "../../util/api";
 
 type List = {
     label: string;
@@ -14,8 +16,30 @@ type List = {
 export default function Sidebar() {
     const router = useRouter();
     const array = router.pathname.split("/")[1];
+
+    const SignOut = async () => {
+        try {
+            const token = getCookie("user");
+            const response = await api.get("/auth/logout", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.status === 200) {
+                deleteCookie("user");
+                router.push("/");
+            } else if (response.status === 401) {
+                console.log("Unauthorize!");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <div className="w-48 l:w-32 h-auto bg-themeRed text-white">
+            <button onClick={SignOut}>Sign Out</button>
             <ul className="list-none">
                 <li className="pt-7 pb-2 text-center mb-4">
                     <h1>Admin</h1>

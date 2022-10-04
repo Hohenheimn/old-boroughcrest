@@ -33,7 +33,6 @@ export default function ChartCircle() {
             },
         ],
     });
-    console.log(BarChartData);
     return (
         <div className=" w-full h-full">
             <Pie data={isData} />

@@ -33,7 +33,6 @@ export default function ChartCurve() {
             },
         ],
     });
-    console.log(BarChartData);
     return (
         <div className=" w-full h-full">
             <Line data={isData} />

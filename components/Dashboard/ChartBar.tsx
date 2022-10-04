@@ -31,7 +31,6 @@ export default function ChartBar() {
             },
         ],
     });
-    console.log(BarChartData);
     return (
         <div className=" w-full h-full">
             <Bar data={isData} />

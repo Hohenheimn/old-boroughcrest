@@ -4,10 +4,11 @@ import { GlobalContext } from "../components/Global";
 import ChartBar from "../components/Dashboard/ChartBar";
 import ChartCurve from "../components/Dashboard/ChartCurve";
 import ChartCircle from "../components/Dashboard/ChartCircle";
+import { FetchUser } from "../components/CustomHook/useFetchData";
 
 export default function dashboard() {
-    const { whosLogin } = useContext(GlobalContext);
-    console.log(whosLogin);
+    const { isLoading, data, isError } = FetchUser();
+    console.log(data);
     return (
         <div className=" p-10">
             <h1 className=" text-24px">Monthly Costumer</h1>

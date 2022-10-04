@@ -1,9 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { imgOthers } from "../../public/images/images";
 import Link from "next/link";
 
 export default function AddCustomer() {
+    // path for displaying Image
+    const [isProfile, setProfile] = useState();
+    const [isProfileVal, setProfileVal] = useState();
+
+    const ProfileDisplay = (e: any) => {
+        console.log(e);
+        if (e.target.files.length > 0) {
+            let selectedImage = e.target.files[0];
+            if (
+                ["image/jpeg", "image/png", "image/svg+xml"].includes(
+                    selectedImage.type
+                )
+            ) {
+                let ImageReader = new FileReader();
+                ImageReader.readAsDataURL(selectedImage);
+
+                ImageReader.addEventListener("load", (event: any) => {
+                    setProfile(event.target.result);
+                });
+            } else {
+                alert("Invalid Image File");
+            }
+        } else {
+            alert("Nothing Happens");
+        }
+    };
+
+    const ProfileHandler = (e: any) => {
+        ProfileDisplay(e);
+        setProfileVal(e.target.value);
+    };
+
     return (
         <form className=" p-10">
             <h1 className=" text-16px text-themeRed mb-2">PRIMARY OWNER</h1>
@@ -11,14 +43,23 @@ export default function AddCustomer() {
                 <li className=" w-2/6 flex p-2 justify-center items-center">
                     <aside className="h-20 w-20 rounded-full bg-gray relative">
                         <div className=" w-full h-full overflow-hidden rounded-full">
-                            <img src="" className="h-full w-full" alt="" />
+                            <img
+                                src={`${isProfile}`}
+                                className="h-full w-full"
+                                alt=""
+                            />
                         </div>
                         <label
                             htmlFor="profile"
                             className="w-5 h-5 rounded-full cursor-pointer hover:bg-red1 bg-themeRed absolute bottom-3 -right-0"
                         ></label>
                     </aside>
-                    <input type="file" id="profile" className="hidden" />
+                    <input
+                        type="file"
+                        id="profile"
+                        onChange={ProfileHandler}
+                        className="hidden"
+                    />
                 </li>
                 <li className=" w-2/6 flex p-2 justify-center items-center">
                     <Image src={imgOthers.idSample1} alt="" />
